@@ -4260,6 +4260,8 @@ MonoBehaviour:
   player: {fileID: 1220246852}
   platform: {fileID: 570675770029767367, guid: 156ea0ef26726184099d0ac3467aeaf0, type: 3}
   offScreenTop: {fileID: 1963415285}
+  motionStart: 1
+  speed: 0.5
 --- !u!4 &2130048305 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 570675770029767386, guid: 156ea0ef26726184099d0ac3467aeaf0,

@@ -15,7 +15,7 @@ public class BackgroundLoop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        loopPoint = 20.48f;
+        loopPoint = loopAmount;
     }
 
     // Update is called once per frame
