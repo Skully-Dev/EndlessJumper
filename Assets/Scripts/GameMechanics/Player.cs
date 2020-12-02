@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("Sound played on bounce")]
     private AudioSource slimeSound;
 
-    [SerializeField] //loop screen
-    private float offScreenR;
+    //loop screen
+    private float offScreenR = 18;
     private float offScreenL;
     private float offScreenDifference;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     [Tooltip("Timer for coyoteTime, if < 0, isGrounded=false")]
     private float coyoteTimer;
 
-    private float backupJumpTime = 3;
+    private float backupJumpTime;
 
 
     // Start is called before the first frame update
@@ -61,8 +61,7 @@ public class Player : MonoBehaviour
         groundLayerIndex = LayerMask.NameToLayer("Ground");
         groundLayer = 1 << groundLayerIndex;
 
-        coyoteTimer = coyoteTime;
-        isGrounded = true;
+        backupJumpTime = Time.time + 3;
     }
 
     // Update is called once per frame

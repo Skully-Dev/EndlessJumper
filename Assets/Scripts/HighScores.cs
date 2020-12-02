@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
+[Serializable]
 public class HighScore
 {
     public static int Count;
-    public int enteryNumber;
+    public int enteryNumber; //this number is always different meaning one score is always better than the other.
     public string name;
     public float score;
 
@@ -19,12 +21,18 @@ public class HighScore
 }
 
 public class HighScores : MonoBehaviour
-{
-
-    public int numberOfScoresOnBoard = 10;
+{    
+    private int numberOfScoresOnBoard = 10;
     public int nameCharLimit = 3;
+
     List<HighScore> highScores = new List<HighScore>();
 
+    [SerializeField]
+    private TextMeshProUGUI[] scores;
+
+    public World world;
+    public Button nameButton;
+    public string inputName;
 
     // Start is called before the first frame update
     void Start()
@@ -36,31 +44,37 @@ public class HighScores : MonoBehaviour
         else
         {
             GenerateFakeScores();
-            //SortScores();
+            SaveScores();
         }
 
-        PrintHighScores();
+        RefreshHallOfSlime();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnterName(string _name)
     {
+        inputName = _name.ToUpper();
 
-    }
-
-    public void DetermineAction(float newScore)
-    {
-        if (CheckScore(newScore))
+        if (inputName.Length < nameCharLimit)
         {
-            //a new score board score
-
-            //get user details
-            //AddHighScore(?name?, newScore)
-            //SortScores();
-            //highScores.RemoveAt(numberOfScoresOnBoard);
-            //SaveScores();
-            //Display scores
+            nameButton.interactable = false;
         }
+        else
+        {
+            nameButton.interactable = true;
+        }
+    }
+
+    public void AddNewHighScore()
+    {
+        //a new score board score
+
+        //get user details
+        AddHighScore(inputName, world.score);
+        SortScores();
+        highScores.RemoveAt(numberOfScoresOnBoard); //removes the score in 11th place.
+        SaveScores();
+        RefreshHallOfSlime();
+        //Display scores
     }
 
     /// <summary>
@@ -97,7 +111,7 @@ public class HighScores : MonoBehaviour
             {
                 randomName += (char)UnityEngine.Random.Range(65, 91); //random capital letter value.
             }
-            highScores.Add(new HighScore(randomName, 10000 - i * 1000)); //scores from 10K to 1K
+            highScores.Add(new HighScore(randomName, 50000 - i * 5000)); //scores from 100K to 50K
         }
     }
 
@@ -138,5 +152,31 @@ public class HighScores : MonoBehaviour
     {
         SaveSystem.Load();
         highScores = SaveSystem.highScores;
+
+        int Count = 0;
+        for (int i = 0; i < highScores.Count; i++)
+        {
+            if (highScores[i].enteryNumber > Count)
+            {
+                Count = highScores[i].enteryNumber;
+            }
+        }
+        HighScore.Count = Count;
+    }
+
+    /// <summary>
+    /// mostly used in testing and debug
+    /// </summary>
+    public void DeleteScores()
+    {
+        SaveSystem.Delete();
+    }
+
+    public void RefreshHallOfSlime()
+    {
+        for (int i = 0; i < scores.Length; i++)
+        {
+            scores[i].text = ((i + 1) + ". " + highScores[i].name + " " + highScores[i].score.ToString("0"));
+        }
     }
 }

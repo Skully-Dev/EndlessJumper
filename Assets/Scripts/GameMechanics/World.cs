@@ -4,7 +4,8 @@ using UnityEngine;
 public class World : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI score;
+    private TextMeshProUGUI scoreText;
+    public float score;
 
     [SerializeField]
     Player player;
@@ -19,12 +20,9 @@ public class World : MonoBehaviour
     private float jumpX = 10f;
     private float jumpY = 3f;
 
-
-    //How far the platfrom has moved in the x direction, happy for cross screen jumps being tricky, just not impossible
-    //private float platformX;
-
     private Vector2 threadPoint = new Vector2(0f, -9f);
 
+    // is NOT the same as Player like named variables.
     private float offScreenR;
     private float offScreenL;
     private float offScreenDifference = 32;
@@ -34,6 +32,7 @@ public class World : MonoBehaviour
     {
         offScreenR = offScreenDifference * 0.5f;
         offScreenL = -offScreenR;
+        score = 0;
     }
 
     // Update is called once per frame
@@ -51,7 +50,7 @@ public class World : MonoBehaviour
     {
         if (player.transform.position.y > transform.position.y)
         {
-            float value = Mathf.Lerp(player.transform.position.y, transform.position.y, 0.05f);
+            float value = Mathf.Lerp( transform.position.y, player.transform.position.y, 0.1f);
             transform.position = new Vector2(0, value);
             UpdateScore(value);
         }
@@ -59,7 +58,8 @@ public class World : MonoBehaviour
 
     private void UpdateScore(float value)
     {
-        score.text = (value * 100f).ToString("0");
+        score = value * 100f;
+        scoreText.text = score.ToString("0");
     }
 
     private void SpawnNextPlatform()
@@ -70,7 +70,7 @@ public class World : MonoBehaviour
 
         if (threadPoint.x > offScreenR)
         {
-            if (random.x > 8)
+            if (random.x > 8) //8 since when platform goes to opposite side of screen, distance increases by 2, and 10 is around the longest jump I want.
             {
                 threadPoint.x = offScreenR;
             }

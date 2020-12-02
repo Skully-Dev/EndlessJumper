@@ -36,6 +36,14 @@ public static class SaveSystem
         }
     }
 
+    public static void Delete()
+    {
+        if (File.Exists(Path()))
+        {
+            File.Delete(Path());
+        }
+    }
+
     /// <summary>
     /// True if a save already exists, otherwise false
     /// </summary>

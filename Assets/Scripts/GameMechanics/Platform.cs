@@ -1,13 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    [Tooltip("Number of jumps before fade away")]
     private int jumps = 1;
-    public Animator anim;
-    public Collider2D coll;
 
+    [SerializeField]
+    private Animator anim;
+    [SerializeField]
+    private Collider2D coll;
+
+    /// <summary>
+    /// Reduces jump remaining count by 1, if 0, platform fades away.
+    /// </summary>
     public void JumpedOn()
     {
         jumps -= 1;
@@ -17,6 +22,9 @@ public class Platform : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Disables collider, fades alpha to 0, destroyed on faded.
+    /// </summary>
     private void FadeAwayPlatform()
     {
         coll.enabled = false;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
@@ -23,7 +21,6 @@ public class BackgroundLoop : MonoBehaviour
     {
         if (midScreen.position.y > loopPoint)
         {
-
             Vector2 temp = background.position;
             temp.y += loopAmount;
             background.position = temp;
